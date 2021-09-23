@@ -2,11 +2,11 @@
 
 require "docking_station"
 
-RSpec.describe DockingStation do
+describe DockingStation do
   it { is_expected.to respond_to :release_bike }
 
   it "returns a bike object" do
-    bike = subject.release_bike
+    bike = Bike.new
     expect(bike).to be_working
   end
 
@@ -14,9 +14,21 @@ RSpec.describe DockingStation do
 
   it { is_expected.to respond_to(:bike) }
 
-  it "docks a bike in the docking station" do
-    bike = Bike.new
-    subject.dock(bike)
-    expect(subject.bike).to(eq(bike))
+  
+
+  describe '#release_bike' do
+
+    it "docks a bike in the docking station" do
+      bike = Bike.new
+      subject.dock(bike)
+      expect(subject.bike).to(eq(bike))
+    end
+
+    it 'releases a bike' do
+      # Let's not dock a bike first:
+      # remember subject == DockingStation.new
+      expect { subject.release_bike }.to raise_error 'No bikes available'
+    end
   end
+
 end
