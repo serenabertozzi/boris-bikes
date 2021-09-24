@@ -23,7 +23,7 @@ describe DockingStation do
     
     it "doesn't accept a bike if docking station is full" do
       bike = Bike.new
-      subject.dock(bike)
+      20.times { subject.dock(bike) }
       expect {subject.dock(bike)}.to raise_error "Docking station full"
     end
   end
@@ -32,6 +32,9 @@ describe DockingStation do
     it 'releases a bike' do
       # Let's not dock a bike first:
       # remember subject == DockingStation.new
+      bike = Bike.new
+      20.times { subject.dock(bike) }
+      20.times { subject.release_bike }
       expect { subject.release_bike }.to raise_error 'No bikes available'
     end
 
