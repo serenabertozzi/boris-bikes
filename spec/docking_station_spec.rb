@@ -5,11 +5,6 @@ require "docking_station"
 describe DockingStation do
   it { is_expected.to respond_to :release_bike }
 
-  it "returns a bike object" do
-    bike = Bike.new
-    expect(bike).to be_working
-  end
-
   it { is_expected.to respond_to(:dock).with(1).argument }
 
   it "has a default capacity" do
@@ -43,6 +38,13 @@ describe DockingStation do
       20.times { subject.dock Bike.new }
       20.times { subject.release_bike }
       expect { subject.release_bike }.to raise_error "No bikes available"
+    end
+
+    it "raise and error, if the bike is broken" do
+      bike = Bike.new
+      subject.dock(bike)
+      bike.report_broken
+      expect { subject.release_bike }.to raise_error "This bike is broken"
     end
   end
 end
